@@ -1,0 +1,83 @@
+{
+  "id": "restaurantMenuCreate",
+  "securityDomains": [
+    "ManageMealOrder"
+  ],
+  "endPoints": [
+    {
+      "name": "getRestaurants",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "/restaurants",
+      "authType": "sso",
+      "isCollection": true
+    }
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "postRestaurantMenu",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "/restaurantMenusCollection",
+        "authType": "sso",
+        "httpMethod": "POST",
+        "onMultiPartSend": "<%
+          for (let file : self.data.metadata.restaurantMenus) {
+            file.restaurant.id = restaurantsWidget.value[0];
+          }
+          return self.data;
+        %>",
+        "failOnStatusCodes": [
+          {
+            "code": 400
+          }
+        ]
+      }
+    ],
+    "responseErrorDetail": {
+      "errorSummary": "<% error %>",
+      "errors": "<% errors.map(item => { item.error }) %>"
+    }
+  },
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Upload Restaurant Menu"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "instanceList",
+          "id": "restaurantsWidget",
+          "label": "Restaurant",
+          "required": true,
+          "values": "<% getRestaurants.data %>"
+        },
+        {
+          "type": "fileUploader",
+          "label": "Menu",
+          "required": true,
+          "fileTypes": "gif,jpg,jpeg,png,pdf",
+          "metadata": "<%
+            {
+              'restaurant': {
+                'id': null
+              }
+            }
+          %>",
+          "valueOutBinding": "postRestaurantMenu:restaurantMenus"
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

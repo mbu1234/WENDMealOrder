@@ -1,0 +1,46 @@
+{
+  "id": "restaurantOrderChartsFromHub",
+  "endPoints": [],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Let's answer some questions from this dataset ...."
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "textArea",
+          "value": "<%
+          
+                  'Which restaurants are the most popular by month?' + '\\n\\n' +
+                  'Which restaurant has taken the most orders for the current month?' + '\\n\\n' +
+                  'Whats the percentage breakdown for orders any given month?' + '\\n\\n' + 
+                  'Have any restaurants failed to take orders in any given month?' + '\\n\\n' + 
+                  'Who is our hungriest individual this year?' + '\\n\\n'
+          
+          %>"
+        },
+        {
+          "type": "button",
+          "label": "Click to see some charts",
+          "action": "PRIMARY",
+          "taskReference": {
+            "taskId": "restaurantOrderCharts"
+          }
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "enabled": "false",
+          "value": "Powered By Workday Extend"
+        }
+      ]
+    }
+  }
+}

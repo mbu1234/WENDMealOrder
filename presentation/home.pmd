@@ -1,0 +1,93 @@
+{
+  "id": "home",
+  "endPoints": [ ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Meal Order"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "Create a Restaurant (Office use)",
+          "taskReference": {
+            "taskId": "restaurantCreate"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "Upload Menu (Office use)",
+          "taskReference": {
+            "taskId": "restaurantMenuCreate"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "View Restaurants",
+          "taskReference": {
+            "taskId": "restaurantManage"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "Place an Order",
+          "taskReference": {
+            "taskId": "restaurantOrderCreate"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "View Orders",
+          "taskReference": {
+            "taskId": "restaurantOrderManage"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "Restaurant of the Month",
+          "taskReference": {
+            "taskId": "restaurantOfTheMonth"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "View Orders by Worker",
+          "taskReference": {
+            "taskId": "restaurantOrderByWorker"
+          }
+        },
+        {
+          "type": "button",
+          "action": "PRIMARY",
+          "label": "Summary Metrics",
+          "taskReference": {
+            "taskId": "restaurantOrderCharts"
+          }
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "button",
+          "action": "LINK",
+          "label": "Alternate Layout",
+          "taskReference": {
+            "taskId": "homev2"
+          }
+        }
+      ]
+    }
+  }
+}

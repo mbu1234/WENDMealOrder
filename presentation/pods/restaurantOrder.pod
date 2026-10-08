@@ -1,0 +1,141 @@
+{
+  "podId": "restaurantOrder",
+  "seed": {
+    "endPoints": [
+      {
+        "name": "getWorkerAddress",
+        "url": "<% `https://api.workday.com/orchestrate/v1/apps/{{site.applicationId}}/orchestrations/RetrieveAddress/launch` %>",
+        "deferred": true,
+        "exclude": "false",
+        "authType": "sso",
+        "useUserAuthWhenAvailable": true,
+        "httpMethod": "POST",
+        "onSend": "<%
+          {
+            'addressType': selectedAddressType,
+            'workerID': @@workerID@@
+          }
+        %>"
+      }
+    ],
+    "parameters": [
+      "restaurantsList",
+      "workerID"
+    ],
+    "template": {
+      "type": "section",
+      "children": [
+        {
+          "type": "instanceList",
+          "label": "Restaurants",
+          "id": "restaurantsWidget",
+          "values": "<%
+            @@restaurantsList@@.data
+              .filter(restaurant => restaurant.active == true && restaurant.approved == true)
+              .map(restaurant => {
+                {
+                  'id': restaurant.id,
+                  'descriptor': `{{restaurant.name}} ({{restaurant.type}})`
+                }
+              })
+          %>",
+          "view": "true",
+          "relatedTask": "true"
+        },
+        {
+          "type": "grid",
+          "label": "Order Items",
+          "id": "orderItemsGridWidget",
+          "columns": [
+            {
+              "type": "column",
+              "label": "Item Name",
+              "columnId": "nameCol",
+              "cellTemplate": {
+                "type": "text",
+                "value": ""
+              }
+            },
+            {
+              "type": "column",
+              "label": "Quantity",
+              "columnId": "quantityCol",
+              "cellTemplate": {
+                "type": "number",
+                "value": "1"
+              }
+            }
+          ],
+          "rows": "<% [ ] %>",
+          "rowVariableName": "orderItem",
+          "doNotPutInTab": true,
+          "configurable": true
+        },
+        {
+          "type": "dropdown",
+          "label": "Where do you want this delivered?",
+          "id": "addressSelectionWidget",
+          "onChange": "<%
+            if (empty(self.value[0])) {
+              orderAddressWidget.setValue('')
+            }
+            else {
+              const response = getWorkerAddress.invoke(
+                {
+                  'selectedAddressType': addressSelectionWidget.value[0]
+                }
+              )
+              if (!empty(response.deliverToAddress)){
+                self.clearError();
+                orderAddressWidget.setValue(response.deliverToAddress)
+              } else {
+                self.setError(response.value.split('@')[0]);
+              }
+            }
+          %>",
+          "values": "<%
+            [
+              {
+                'id': 'home',
+                'descriptor': 'Home'
+              },
+              {
+                'id': 'work',
+                'descriptor': 'Work'
+              }
+            ]
+          %>"
+        },
+        {
+          "type": "textArea",
+          "label": "Order Address",
+          "id": "orderAddressWidget",
+          "enabled": "false"
+        },
+        {
+          "type": "date",
+          "label": "Delivery Date",
+          "id": "deliveryDateWidget",
+          "onChange": "<%
+
+            if (!customValidations.isTodayOrFutureDate(self.value)) {
+              self.setError('Delivery date cannot be in the past.');
+
+            } else if (!customValidations.isWeekday(self.value)) {
+              self.setError('Delivery date must be a weekday.');
+
+            } else if (!customValidations.isOverFourteenDays(self.value)) {
+              self.setError('Delivery date must be within 14 days from today')
+
+            } else {
+              self.clearError();
+            }
+
+
+          %>",
+          "datePrecision": "DAY"
+        }
+      ]
+    }
+  }
+}

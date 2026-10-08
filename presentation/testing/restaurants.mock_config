@@ -1,0 +1,9 @@
+{
+  "mappings": [
+   { 
+      "location": { 
+        "endPointName": "getRestaurants" 
+      },  
+      "mockId": "restaurants" 
+   }]
+}

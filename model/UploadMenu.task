@@ -1,0 +1,9 @@
+{
+  "id": 4,
+  "name": "UploadMenu",
+  "label": "Upload Menu",
+  "securityDomains": [
+    "ManageMealOrder"
+  ],
+  "routePath": "/restaurantMenuCreate"
+}

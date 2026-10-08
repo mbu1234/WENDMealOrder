@@ -1,0 +1,115 @@
+{
+  "id": "testAI_Q_A_Flowise_MealOrder_ChatBot",
+  "onLoad": "<%
+    pageVariables.restaurantOfTheMonthName = 'The cloud cafe';
+    pageVariables.restaurantOfTheMonthDescription = 'The cloud cafe';
+   %>",
+  "endPoints": [
+    {
+      "name": "sendToAgentChatbot",
+      "url": "https://cloud.flowiseai.com/api/v1/prediction/576f92f5-8311-4435-a22f-9e6d701c5ce8",
+      "httpMethod": "POST",
+      "onSend": "<%
+        {
+          'question' : questionWidget.value
+        }
+      %>",
+      "authType": "noAuth",
+      "deferred": true
+    }
+  ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Restaurant Of the Month ..."
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "section",
+          "horizontal": true,
+          "columnWidthRatios": [
+            0.6,
+            0.4
+          ],
+          "children": [
+            {
+              "type": "section",
+              "children": [
+                {
+                  "type": "cardContainer",
+                  "cards": [
+                    {
+                      "type": "card",
+                      "cardId": "simple",
+                      "parameters": "<% 
+                  {
+                      'title': pageVariables.restaurantOfTheMonthName,
+                      'subtitle': pageVariables.restaurantOfTheMonthDescription,
+                      'indicatorLabel': 'I\\'m Ready to go...',
+                      'indicatorColor': 'Green',
+                      'icon': 'wd-accent-coffee',
+                      'body': 'Have a question about this establishment? Ask it below ...'
+                  }
+              %>"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "children": [
+                {
+                  "type": "textArea",
+                  "id": "questionWidget",
+                  "label": "Your Question ..."
+                },
+                {
+                  "type": "pageActionButton",
+                  "label": "Send",
+                  "onClick": "<%
+
+                    let response = sendToAgentChatbot.invoke();
+              
+                    responseWidget.value = response.text;
+                    responseSectionWidget.visible = true;
+
+
+                  %>"
+                },
+                {
+                  "type": "section",
+                  "id": "responseSectionWidget",
+                  "visible": false,
+                  "children": [
+                    {
+                      "type": "textArea",
+                      "id": "responseWidget",
+                      "enabled": false,
+                      "label": "Response ...."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "id": "statusWidget",
+          "enabled": false,
+          "value": "<span style='color: blue;'>Please give me a moment to think and respond :)</span>"
+        }
+      ]
+    }
+  }
+}

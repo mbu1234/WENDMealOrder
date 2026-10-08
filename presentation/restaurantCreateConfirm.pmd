@@ -1,0 +1,76 @@
+{
+  "id": "restaurantCreateConfirm",
+  "endPoints": [ ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "postRestaurant",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "/restaurants",
+        "authType": "sso",
+        "httpMethod": "POST",
+        "onSend": "<%
+          {
+            'name': flowVariables.restaurantName,
+            'type': flowVariables.restaurantType,
+            'active': flowVariables.restaurantActive,
+            'approved' : false
+          }
+        %>"
+      },
+      {
+        "name": "postApproveRestaurantEvent",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "/approveRestaurantEvents",
+        "authType": "sso",
+        "httpMethod": "POST",
+        "onSend": "<%
+          {
+            'businessProcessTarget' : {
+              'id' : postRestaurant.id
+            }
+          }
+        %>"
+      }
+    ]
+  },
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Please confirm the values entered below"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "label": "Name",
+          "enabled": false,
+          "value": "<% flowVariables.restaurantName %>"
+        },
+        {
+          "type": "text",
+          "label": "Type",
+          "enabled": false,
+          "value": "<% flowVariables.restaurantType %>"
+        },
+        {
+          "type": "text",
+          "label": "Active",
+          "enabled": false,
+          "value": "<% flowVariables.restaurantActive %>"
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

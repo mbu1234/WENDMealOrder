@@ -1,0 +1,47 @@
+{
+  "id": "bpApproveRestaurant",
+  "endPoints": [
+    {
+      "name": "getApproveRestaurantEvent",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% '/approveRestaurantEvents/' + routeParams.eventId %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurant",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% '/restaurants/' + getApproveRestaurantEvent.businessProcessTarget.id %>"
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "New Restaurant for Approval"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "label": "Restaurant Name",
+          "value": "<% getRestaurant.name %>"
+        },
+        {
+          "type": "text",
+          "label": "Restaurant Type",
+          "value": "<% getRestaurant.type %>"
+        },
+        {
+          "type": "text",
+          "label": "Active?",
+          "value": "<% getRestaurant.active %>"
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [ ]
+    }
+  }
+}

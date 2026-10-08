@@ -1,0 +1,76 @@
+{
+  "id": "restaurantView",
+  "endPoints": [
+    {
+      "name": "getRestaurant",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% '/restaurants/' + queryParams.restaurantId %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantMenus",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% '/restaurantMenus?restaurant=' + queryParams.restaurantId %>",
+      "authType": "sso",
+      "isCollection": true
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "<% getRestaurant.name %>"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "label": "Name",
+          "value": "<% getRestaurant.name %>"
+        },
+        {
+          "type": "text",
+          "label": "Type",
+          "value": "<% getRestaurant.type %>"
+        },
+        {
+          "type": "text",
+          "label": "Active",
+          "value": "<% getRestaurant.active %>"
+        },
+        {
+          "type": "text",
+          "label": "Approved",
+          "value": "<% getRestaurant.approved %>"
+        },
+        {
+          "type": "loop",
+          "label": "Menus",
+          "on": "<% getRestaurantMenus.data %>",
+          "as": "menu",
+          "children": [
+            {
+              "type": "image",
+              "sizingHint": "THUMBNAIL",
+              "endPoint": {
+                "baseUrlType": "BUSINESS-OBJECT",
+                "url": "<% `/restaurantMenus/{{menu.id}}` %>",
+                "authType": "sso"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "testGridData",
+  "endPoints": [ ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Workday Extend"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "grid",
+          "id": "orderItemsGridWidget",
+          "label": "Order Items",
+          "rows": "<% [ ] %>",
+          "rowVariableName": "orderItem",
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "nameCol",
+              "label": "Item Name",
+              "cellTemplate": {
+                "type": "text",
+                "value": ""
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "quantityCol",
+              "label": "Quantity",
+              "cellTemplate": {
+                "type": "number",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "type": "pageActionButton",
+          "label": "Update",
+          "onClick": "<%
+            debugWidget.value = orderItemsGridWidget.getRows()
+            .map(
+              row => ({
+                'itemName' : row.childrenMap.nameCol.value,
+                'quantity' : row.childrenMap.quantityCol.value
+              })
+            )
+            
+            
+          %>"
+        },
+        {
+          "type": "textArea",
+          "id": "debugWidget",
+          "label": "Debug Grid Values"
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

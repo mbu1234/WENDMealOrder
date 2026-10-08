@@ -1,0 +1,55 @@
+{
+  "id": "restaurantOfTheMonth",
+  "endPoints": [
+    {
+      "name": "getRestaurant",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% `/restaurants/{{attrstore.restaurantOfTheMonthWID}}` %>",
+      "authType": "sso"
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Restaurant of the Month"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "cardContainer",
+          "layout": "grid",
+          "cards": [
+            {
+              "type": "card",
+              "cardId": "simpleCard",
+              "parameters": "<%
+                 {
+                  'title': getRestaurant.name,
+                  'subtitle' : 'Our new restaurant of the month for ' + date:format(date:now(), 'MMMM') + '!!',
+                  'icon' : 'wd-accent-trophy',
+                  'body' : attrstore.restaurantOfTheMonthDescription
+                 }
+              %>"
+            },
+            {
+              "type": "card",
+              "cardId": "imageCardExample",
+              "parameters": "<%
+                {
+                  'title' : 'New restaurants available ....',
+                  'subtitle' : 'New options available for lunch and dinner'
+                }
+              %>"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [ ]
+    }
+  }
+}

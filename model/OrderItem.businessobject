@@ -1,0 +1,33 @@
+{
+  "id": 3,
+  "name": "OrderItem",
+  "label": "Order Item",
+  "defaultSecurityDomains": [
+    "ViewMealOrder",
+    "SelfServiceMealOrder"
+  ],
+  "defaultCollection": {
+    "name": "orderItems",
+    "label": "Order Items"
+  },
+  "fields": [
+    {
+      "enableSearch": false,
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "label": "Item Name",
+      "type": "TEXT",
+      "name": "itemName",
+      "id": 1
+    },
+    {
+      "enableIndex": false,
+      "isPurgeable": false,
+      "type": "INTEGER",
+      "name": "quantity",
+      "id": 2
+    }
+  ]
+}

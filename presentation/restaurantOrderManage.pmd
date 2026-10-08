@@ -1,0 +1,140 @@
+{
+  "id": "restaurantOrderManage",
+  "endPoints": [
+    {
+      "name": "getRestaurantOrders",
+      "baseUrlType": "WQL",
+      "url": "<% 
+        const dataSource = `{{site.applicationId}}_restaurantOrders`;
+        const queryString = 'SELECT workdayID, createdBy, orderItems{itemName, quantity}, orderAddress, deliveryDate, restaurant{name, workdayID} FROM ' + dataSource;
+        
+        const limit = pagingVariables.limit ?? 30;
+        const offset = pagingVariables.offset ?? 0;
+
+        const url = `/data?query={{string:pathEncode(queryString)}}&limit={{limit}}&offset={{offset}}`;
+        return url;
+      %>",
+      "authType": "sso"
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "All Orders"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "grid",
+          "rows": "<% list:sort(getRestaurantOrders.data, 'restaurant.name', true) %>",
+          "rowVariableName": "restaurantOrder",
+          "excelExportEnabled": true,
+          "pagingInfo": {
+            "endPoint": "<% endpoints.getRestaurantOrders %>",
+            "rowCount": "<% getRestaurantOrders.total %>",
+            "data": "<% getRestaurantOrders.data %>"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "widCol",
+              "label": "Workday ID",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.workdayID ?? '' %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "createdByCol",
+              "sortableAndFilterable": true,
+              "label": "Name",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.createdBy.descriptor ?? '' %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderItemsCol",
+              "label": "Order Items",
+              "cellTemplate": {
+                "type": "section",
+                "children": [
+                  {
+                    "type": "loop",
+                    "on": "<% restaurantOrder.orderItems %>",
+                    "as": "item",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "<% `{{item.itemName}}: {{item.quantity}}` %>"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "excel": {
+                "value": "<%
+                  if (restaurantOrder.orderItems != null) {
+                    return string:join(
+                      restaurantOrder.orderItems.map(item => item.itemName + ': ' + item.quantity),
+                      ', '
+                    );
+                  }
+                %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderAddressCol",
+              "label": "Order Address",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.orderAddress ?? '' %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "deliveryDateCol",
+              "sortableAndFilterable": true,
+              "label": "Delivery Date",
+              "cellTemplate": {
+                "type": "date",
+                "value": "<% restaurantOrder.deliveryDate ?? '' %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantCol",
+              "sortableAndFilterable": true,
+              "label": "Restaurant",
+              "cellTemplate": {
+                "type": "instanceList",
+                "view": false,
+                "instanceList": [
+                  {
+                    "descriptor": "<% restaurantOrder.restaurant.name %>",
+                    "wid": "<% restaurantOrder.restaurant.workdayID %>"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    },
+    "pageType": "VIEW"
+  }
+}

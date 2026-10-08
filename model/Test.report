@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "name": "Test",
+  "businessObject": "Restaurant",
+  "defaultSecurityDomains": [
+    "ManageMealOrder"
+  ],
+  "sortConfigs": [],
+  "columns": []
+}

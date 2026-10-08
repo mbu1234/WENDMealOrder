@@ -1,0 +1,9 @@
+{
+  "id": 3,
+  "name": "CreateRestaurant",
+  "label": "Create Restaurant",
+  "securityDomains": [
+    "ManageMealOrder"
+  ],
+  "routePath": "/restaurantCreate"
+}

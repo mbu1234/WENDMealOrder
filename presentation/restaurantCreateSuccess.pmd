@@ -1,0 +1,10 @@
+{
+  "id": "restaurantCreateSuccess",
+  "presentation": {
+    "microConclusion": "true",
+    "body": {
+      "type": "section",
+      "children": [ ]
+    }
+  }
+}

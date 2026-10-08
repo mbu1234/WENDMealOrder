@@ -1,0 +1,9 @@
+{
+  "id": 6,
+  "name": "OrderMeal",
+  "label": "Order a Meal",
+  "securityDomains": [
+    "SelfServiceMealOrder"
+  ],
+  "routePath": "/restaurantOrderCreate"
+}

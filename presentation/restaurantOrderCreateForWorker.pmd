@@ -1,0 +1,126 @@
+{
+  "id": "restaurantOrderCreateForWorker",
+  "include": [
+    "customValidations.script"
+  ],
+  "endPoints": [
+    {
+      "name": "getWorkers",
+      "baseUrlType": "COMMON",
+      "url": "/workers",
+      "authType": "sso"
+    },
+    {
+      "name": "getWorkersSearch",
+      "baseUrlType": "COMMON",
+      "url": "<% '/workers?search=' + instanceListQuery %>",
+      "authType": "sso",
+      "exclude": "<% empty instanceListQuery %>",
+      "deferred": true
+    },
+    {
+      "name": "getRestaurants",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "/restaurants",
+      "authType": "sso",
+      "isCollection": true
+    }
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "postOrderItems",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "/orderItems?bulk=true",
+        "httpMethod": "POST",
+        "onSend": "<%
+          {
+            'data' : orderItemsGridWidget.getRows()
+            .map(
+              row => ({
+                'itemName' : row.childrenMap.nameCol.value,
+                'quantity' : row.childrenMap.quantityCol.value
+              })
+            )
+          }
+        %>"
+      },
+      {
+        "name": "postRestaurantOrder",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "/restaurantOrders",
+        "authType": "sso",
+        "httpMethod": "POST",
+        "onSend": "<%
+          {
+            'restaurant': {
+              'id': restaurantsWidget.value[0]
+            },
+            'createdBy': {
+              'id': workersWidget.value[0]
+            },
+
+            'orderItems' : postOrderItems.data
+            .map(item => (
+              {
+                'id' : item.body.id
+              }
+              )),
+
+            'orderAddress': orderAddressWidget.value,
+            'deliveryDate': deliveryDateWidget.value.format('yyyy-MM-dd'),
+            'orderMonth': deliveryDateWidget.value.format('MMM'),
+            'orderYear': deliveryDateWidget.value.format('YYYY')
+          }
+        %>",
+        "failOnStatusCodes": [
+          {
+            "code": 400
+          }
+        ]
+      }
+    ],
+    "responseErrorDetail": {
+      "errorSummary": "<% error %>",
+      "errors": "<% errors.map(item => { item.error }) %>"
+    }
+  },
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Create an Order"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "instanceList",
+          "id": "workersWidget",
+          "label": "Who is this order for?",
+          "values": "<% getWorkers.data %>",
+          "searchEndPoint": "<% getWorkersSearch %>",
+          "searchResultValues": "<% getWorkersSearch.data %>"
+        },
+        {
+          "type": "pod",
+          "podId": "restaurantOrder",
+          "parameters": {
+            "restaurantsList": "<% getRestaurants %>",
+            "workerID": "<% workersWidget.value[0] %>"
+          }
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "restaurantCreateFromHub",
+  "endPoints": [],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Create a Restaurant"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": true,
+      "columnWidthRatios": [
+        0.5,
+        0.5
+      ],
+      "children": [
+        {
+          "type": "section",
+          "horizontal": "false",
+          "children": [
+            {
+              "type": "text",
+              "label": "Remember ...",
+              "value": "All new restaurants will need to be approved by the Chief Human Resource Officer"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "horizontal": "false",
+          "children": [
+            {
+              "type": "text",
+              "id": "spacerWidget",
+              "label": "",
+              "value": ""
+            },
+            {
+              "type": "button",
+              "label": "Begin",
+              "taskReference": {
+                "taskId": "restaurantCreate"
+              }
+            },
+            {
+              "type": "button",
+              "label": "Main Menu",
+              "taskReference": {
+                "taskId": "home"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "footer": {
+    "type": "footer",
+    "children": [
+
+    ]
+  },
+  "pageType": "VIEW"
+}

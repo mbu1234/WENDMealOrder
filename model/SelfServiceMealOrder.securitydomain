@@ -1,0 +1,7 @@
+{
+  "id": 3,
+  "name": "SelfServiceMealOrder",
+  "enabledForPageSecurity": true,
+  "enabledForOrchestrationSecurity": false,
+  "label": "Self-Service: Meal Order"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "restaurantEdit",
+  "endPoints": [
+    {
+      "name": "getRestaurant",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "<% `/restaurants/{{queryParams.restaurantId}}` %>",
+      "authType": "sso"
+    }
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "patchRestaurant",
+        "baseUrlType": "BUSINESS-OBJECT",
+        "url": "<% `/restaurants/{{queryParams.restaurantId}}` %>",
+        "authType": "sso",
+        "httpMethod": "PATCH",
+        "onSend": "<%
+        {
+          'name': nameWidget.value,
+          'type': typeWidget.value,
+          'active': activeWidget.value
+        }
+      %>"
+      }
+    ]
+  },
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "<% getRestaurant.name %>"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "id": "nameWidget",
+          "required": true,
+          "label": "Name",
+          "value": "<% getRestaurant.name %>"
+        },
+        {
+          "type": "text",
+          "id": "typeWidget",
+          "label": "Type",
+          "value": "<% getRestaurant.type %>"
+        },
+        {
+          "type": "checkBox",
+          "id": "activeWidget",
+          "label": "Active",
+          "value": "<% getRestaurant.active %>"
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

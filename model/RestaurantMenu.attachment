@@ -1,0 +1,25 @@
+{
+  "id": 1,
+  "name": "RestaurantMenu",
+  "label": "Restaurant Menu",
+  "defaultSecurityDomains": [
+    "ViewMealOrder",
+    "ManageMealOrder"
+  ],
+  "defaultCollection": {
+    "name": "restaurantMenus",
+    "label": "Restaurant Menus"
+  },
+  "fields": [
+    {
+      "enableReportingFromTarget": false,
+      "secureByTarget": false,
+      "target": "Restaurant",
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "type": "SINGLE_INSTANCE",
+      "name": "restaurant",
+      "id": 1
+    }
+  ]
+}

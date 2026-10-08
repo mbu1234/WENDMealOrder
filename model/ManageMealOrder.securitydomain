@@ -1,0 +1,7 @@
+{
+  "id": 4,
+  "name": "ManageMealOrder",
+  "enabledForPageSecurity": true,
+  "enabledForOrchestrationSecurity": false,
+  "label": "Manage: Meal Order"
+}

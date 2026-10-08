@@ -1,0 +1,9 @@
+{
+  "id": 7,
+  "name": "ViewMealOrders",
+  "label": "View Meal Orders",
+  "securityDomains": [
+    "ViewMealOrder"
+  ],
+  "routePath": "/restaurantOrderManage"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "restaurantManage",
+  "endPoints": [
+    {
+      "name": "getRestaurants",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "/restaurants",
+      "authType": "sso",
+      "isCollection": true
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Restaurants"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "grid",
+          "excelExportEnabled": true,
+          "rows": "<% getRestaurants.data %>",
+          "rowVariableName": "restaurant",
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "restaurantIdCol",
+              "label": "Workday ID",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurant.id %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantNameCol",
+              "sortableAndFilterable": true,
+              "label": "Name",
+              "cellTemplate": {
+                "type": "instanceList",
+                "instanceList": [
+                  {
+                    "descriptor": "<% restaurant.name %>",
+                    "wid": "<% restaurant.id %>"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantTypeCol",
+              "sortableAndFilterable": true,
+              "label": "Type",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurant.type %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantActiveCol",
+              "label": "Active",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurant.active %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantApprovedCol",
+              "label": "Approved",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurant.approved %>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

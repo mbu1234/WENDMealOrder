@@ -1,0 +1,134 @@
+{
+  "id": "restaurantOrderByWorker",
+  "endPoints": [
+    {
+      "name": "getInitialWorkersList",
+      "baseUrlType": "COMMON",
+      "url": "/workers?limit=30",
+      "authType": "sso"
+    },
+    {
+      "name": "getWorkers",
+      "baseUrlType": "COMMON",
+      "url": "<% '/workers?search=' + instanceListQuery %>",
+      "authType": "sso",
+      "deferred": true
+    },
+    {
+      "name": "getRestaurantOrders",
+      "baseUrlType": "WQL",
+      "url": "<%
+          const basePath = '/data?query=';
+
+          let workerWID = workerWidget.value[0];
+          let queryString = string:urlEncode(
+            `SELECT restaurant{name}, orderItems{itemName, quantity}, orderAddress, deliveryDate FROM {{site.applicationId}}_restaurantOrders WHERE createdBy = {{workerWID}}`
+          );
+
+          basePath + queryString;
+        %>",
+      "authType": "sso",
+      "deferred": true
+    }
+  ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Restaurant Orders by Worker"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "instanceList",
+          "id": "workerWidget",
+          "label": "Worker",
+          "values": "<% getInitialWorkersList.data %>",
+          "searchEndPoint": "<% endpoints.getWorkers %>",
+          "searchResultValues": "<% getWorkers.data %>"
+        },
+        {
+          "type": "pageActionButton",
+          "id": "showOrdersWidget",
+          "label": "Show Orders",
+          "onClick": "<% 
+            if (!empty(workerWidget.value)) {
+              const response = getRestaurantOrders.invoke();
+              gridWidget.setRows(response.data);  
+            } 
+                             
+               %>"
+        },
+        {
+          "type": "grid",
+          "id": "gridWidget",
+          "label": "Orders for Worker",
+          "rows": "<% [] %>",
+          "rowVariableName": "order",
+          "enabled": false,
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "deliveryDateCol",
+              "label": "Delivery Date",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% order.deliveryDate %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderItemsCol",
+              "label": "Order Items",
+              "cellTemplate": {
+                "type": "section",
+                "children": [
+                  {
+                    "type": "loop",
+                    "on": "<% order.orderItems %>",
+                    "as": "item",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "<% `{{item.itemName}}: {{item.quantity}}` %>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderAddressCol",
+              "label": "Order Address",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% order.orderAddress %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantCol",
+              "label": "Restaurant",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% order.restaurant.name %>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

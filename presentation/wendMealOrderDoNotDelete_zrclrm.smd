@@ -1,0 +1,21 @@
+{
+  "id": "wendMealOrderDoNotDelete_zrclrm",
+  "languages": [
+    {
+      "code": "en-US",
+      "description": "English"
+    }
+  ],
+  "siteAuth": {
+    "authTypes": [
+      {
+        "scheme": "SSO",
+        "id": "sso"
+      }
+    ]
+  },
+  "siteId": "wendMealOrderDoNotDelete_zrclrm",
+  "cdnEnabled": true,
+  "siteProperties": [ ],
+  "applicationId": "wendMealOrderDoNotDelete_zrclrm"
+}

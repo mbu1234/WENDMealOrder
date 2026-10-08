@@ -1,0 +1,52 @@
+{
+  "id": "cardTest",
+  "endPoints": [ ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Workday Extend"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "cardContainer",
+          "layout": "grid",
+          "cards": [
+            {
+              "type": "card",
+              "cardId": "simpleCard",
+              "parameters": "<% {
+          'title': 'Good news!',
+          'subtitle': date:getTodaysDate(date:getDateTimeZone(userTimeZone)),
+          'icon': 'wd-accent-trophy',
+          'indicatorLabel': 'Success',
+          'indicatorColor': 'green',
+          'body': 'We have brand new restaurants available on our order page.'
+      }%>"
+            },
+            {
+              "type": "card",
+              "cardId": "imageCardExample",
+              "parameters": "<%{
+    'title': 'New restaurants available',
+    'subtitle': 'New options available for lunch and dinner.' 
+  }%>"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "enabled": "false",
+          "value": "Powered By Workday Extend"
+        }
+      ]
+    }
+  }
+}

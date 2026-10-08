@@ -1,0 +1,246 @@
+{
+  "id": "restaurantOrderCharts",
+  "onLoad": "<% pageVariables.showPersonBreakdown = false %>",
+  "endPoints": [
+    {
+      "name": "getRestaurantOrders",
+      "baseUrlType": "WQL",
+      "url": "<%
+        const currentYear = date:now().format('YYYY');
+        const queryString = `SELECT count() as totalOrders, orderMonth, orderYear, restaurant FROM {{site.appProperties.restaurantOrderDS}} WHERE orderYear='{{currentYear}}'`;
+       
+        const url = '/data?query=' + string:pathEncode(queryString);
+        url;
+      %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantOrdersByMonth",
+      "baseUrlType": "WQL",
+      "url": "<%
+        const currentYear = date:now().format('YYYY');
+        const queryString = `SELECT count() as totalOrders, orderMonth, orderYear, deliveryDate, restaurant FROM {{site.appProperties.restaurantOrderDS}} WHERE orderYear='{{currentYear}}' ORDER by deliveryDate ASC`;
+       
+        const url = '/data?query=' + string:pathEncode(queryString);
+        url;
+      %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantOrdersCurrentMonth",
+      "baseUrlType": "WQL",
+      "url": "<%
+        const currentMonth = date:now().format('MMM');
+        const currentYear = date:now().format('YYYY');
+        const queryString = `SELECT count() as totalOrders, orderMonth, orderYear, restaurant FROM {{site.appProperties.restaurantOrderDS}} WHERE orderMonth='{{currentMonth}}' AND orderYear='{{currentYear}}'`;
+       
+        const url = '/data?query=' + string:pathEncode(queryString);
+        url;
+      %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantOrdersByPerson",
+      "baseUrlType": "WQL",
+      "url": "<%
+        const currentYear = date:now().format('YYYY');
+        const queryString = `SELECT count() as totalOrders, createdBy, orderMonth, orderYear, restaurant FROM {{site.appProperties.restaurantOrderDS}} WHERE orderYear='{{currentYear}}' `;
+       
+        const url = '/data?query=' + string:pathEncode(queryString);
+        url;
+      %>",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantOrdersBySinglePersonBreakdown",
+      "baseUrlType": "WQL",
+      "url": "<%
+        const currentYear = date:now().format('YYYY');
+        const queryString = `SELECT count() as totalOrders, orderMonth, createdBy, orderYear, restaurant FROM {{site.appProperties.restaurantOrderDS}} WHERE orderYear='{{currentYear}}' AND createdBy IN '{{selectedWorker}}' `;
+       
+        const url = '/data?query=' + string:pathEncode(queryString);
+        url;
+      %>",
+      "authType": "sso",
+      "deferred": true
+    }
+  ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Order Metrics"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "columnWidthRatios": [
+        0.5,
+        0.5
+      ],
+      "children": [
+        {
+          "type": "section",
+          "horizontal": "true",
+          "children": [
+            {
+              "type": "grid",
+              "enabled": false,
+              "id": "ordersGridWidget",
+              "label": "Restaurant Orders",
+              "rows": "<% getRestaurantOrders.data %>",
+              "rowVariableName": "order",
+              "columns": [
+                {
+                  "type": "column",
+                  "columnId": "restaurantNameCol",
+                  "sortableAndFilterable": true,
+                  "label": "Restaurant",
+                  "cellTemplate": {
+                    "type": "text",
+                    "value": "<% order.restaurant.descriptor ?? 'No restaurant found' %>"
+                  }
+                },
+                {
+                  "type": "column",
+                  "columnId": "orderMonthCol",
+                  "sortableAndFilterable": true,
+                  "label": "Order Month",
+                  "cellTemplate": {
+                    "type": "text",
+                    "value": "<% order.orderMonth ?? '' %>"
+                  }
+                },
+                {
+                  "type": "column",
+                  "columnId": "totalOrdersCol",
+                  "label": "Total Orders",
+                  "cellTemplate": {
+                    "type": "text",
+                    "value": "<% order.totalOrders ?? '' %>"
+                  }
+                }
+              ]
+            },
+            {
+              "showOutline": true,
+              "type": "stackedBarChart2",
+              "categoryDataSet": {
+                "name": "Order Month",
+                "value": "<% instance.orderMonth ?? '' %>"
+              },
+              "data": "<% getRestaurantOrders.data %>",
+              "dataVariableName": "instance",
+              "measurementDataSets": [
+                {
+                  "name": "Totals",
+                  "value": "<% instance.totalOrders %>"
+                }
+              ],
+              "categoryAxisOptions": {},
+              "secondaryCategory": {
+                "name": "Restaurant",
+                "value": "<% instance.restaurant.descriptor ?? 'No restaurant found' %>"
+              },
+              "id": "restaurantOrderByRestaurantByMonthBarChart",
+              "colors": "<% [\"#699ccf\", \"#0057ae\", \"#4a75a1\", \"#8da8c2\"] %>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "horizontal": "true",
+          "children": [
+            {
+              "type": "stackedAreaChart2",
+              "id": "restaurantOrderByRestaurantByMonthAreaChart",
+              "categoryDataSet": {
+                "name": "Order Month",
+                "value": "<% instance.orderMonth %>"
+              },
+              "data": "<% getRestaurantOrders.data  %>",
+              "dataVariableName": "instance",
+              "measurementDataSets": [
+                {
+                  "name": "Totals",
+                  "value": "<% instance.totalOrders %>"
+                }
+              ],
+              "categoryAxisOptions": {},
+              "secondaryCategory": {
+                "name": "Restaurant",
+                "value": "<% instance.restaurant.descriptor ?? 'No restaurant found' %>"
+              }
+            },
+            {
+              "type": "donutChart2",
+              "showOutline": true,
+              "showPercentLabels": true,
+              "id": "donutExample1",
+              "data": "<% getRestaurantOrdersCurrentMonth.data %>",
+              "dataVariableName": "instance",
+              "sliceColorDataSet": {
+                "name": "Restaurant",
+                "value": "<% instance.restaurant.descriptor %>"
+              },
+              "sliceSizeDataSet": {
+                "name": "Totals",
+                "value": "<% instance.totalOrders %>"
+              },
+              "colors": "<% ['#fec10b', '#a4bdcc', 'green', 'lightgreen'] %>",
+              "sliceDetailDataSet": {
+                "name": "Year",
+                "value": "<% instance.orderYear %>"
+              },
+              "subtitle": "Current Month",
+              "title": "Restaurant Orders"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "horizontal": true,
+          "children": [
+            {
+              "type": "section",
+              "children": [
+                {
+                  "showOutline": true,
+                  "type": "stackedBarChart2",
+                  "categoryDataSet": {
+                    "name": "Person",
+                    "value": "<% instance.createdBy.descriptor ?? 'No user found' %>"
+                  },
+                  "data": "<% getRestaurantOrdersByPerson.data %>",
+                  "dataVariableName": "instance",
+                  "measurementDataSets": [
+                    {
+                      "name": "Totals",
+                      "value": "<% instance.totalOrders %>"
+                    }
+                  ],
+                  "categoryAxisOptions": {},
+                  "secondaryCategory": {
+                    "name": "Restaurant",
+                    "value": "<% instance.restaurant.descriptor ?? 'No restaurant found' %>"
+                  },
+                  "id": "restaurantOrderByPersonBarChart",
+                  "colors": "<% [\"#699ccf\", \"#0057ae\", \"#4a75a1\", \"#8da8c2\"] %>"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

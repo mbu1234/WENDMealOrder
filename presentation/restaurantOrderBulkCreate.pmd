@@ -1,0 +1,148 @@
+{
+  "id": "restaurantOrderBulkCreate",
+  "include": [
+    "generateRestaurantOrderData.script"
+  ],
+  "endPoints": [
+    {
+      "name": "getRestaurants",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "/restaurants",
+      "authType": "sso"
+    },
+    {
+      "name": "getCurrentUser",
+      "baseUrlType": "COMMON",
+      "url": "/workers/me",
+      "authType": "sso"
+    },
+    {
+      "name": "getRestaurantOrdersDeferred",
+      "baseUrlType": "WQL",
+      "url": "<% 
+          const dataSource = `{{site.applicationId}}_restaurantOrders`;
+          const queryString = 'SELECT createdBy, orderItems{itemName, quantity}, orderAddress, deliveryDate, restaurant{name, workdayID} FROM ' + dataSource;
+          const url = `/data?query={{string:pathEncode(queryString)}}`;
+          return url;
+        %>",
+      "authType": "sso",
+      "deferred": true,
+      "isCollection": true
+    },
+    {
+      "name": "postRestaurantOrders",
+      "baseUrlType": "BUSINESS-OBJECT",
+      "url": "/restaurantOrders?bulk=true",
+      "httpMethod": "POST",
+      "authType": "sso",
+      "deferred": true,
+      "onSend": "<%
+          {
+            'data': generateRestaurantOrderData.generateData(getRestaurants.data[0].id, getCurrentUser.id)
+          }
+        %>"
+    }
+  ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Bulk Create Restaurant Orders"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "pageActionButton",
+          "id": "bulkCreateOrdersButtonWidget",
+          "label": "Bulk Create New Restaurant Orders",
+          "onClick": "<%
+              // Create the new Restaurant Order business objects
+              const response = postRestaurantOrders.invoke();
+
+              // Update the grid to include the new Restaurant Orders
+              const newGridRows = getRestaurantOrdersDeferred.invoke()
+              gridWidget.setRows(newGridRows.data);
+            %>"
+        },
+        {
+          "type": "grid",
+          "id": "gridWidget",
+          "label": "All Restaurant Orders",
+          "enabled": false,
+          "rows": "<% getRestaurantOrdersDeferred.invoke().data %>",
+          "rowVariableName": "restaurantOrder",
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "createdByCol",
+              "label": "Name",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.createdBy.descriptor %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderItemsCol",
+              "label": "Order Items",
+              "cellTemplate": {
+                "type": "section",
+                "children": [
+                  {
+                    "type": "loop",
+                    "on": "<% restaurantOrder.orderItems %>",
+                    "as": "item",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "<% `{{item.itemName}}: {{item.quantity}}` %>"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "orderAddressCol",
+              "label": "Order Address",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.orderAddress %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "deliveryDateCol",
+              "label": "Delivery Date",
+              "cellTemplate": {
+                "type": "date",
+                "value": "<% restaurantOrder.deliveryDate %>"
+              }
+            },
+            {
+              "type": "column",
+              "columnId": "restaurantCol",
+              "label": "Restaurant",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% restaurantOrder.restaurant.id %>"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "pod",
+          "podId": "mainMenuLink"
+        }
+      ]
+    }
+  }
+}

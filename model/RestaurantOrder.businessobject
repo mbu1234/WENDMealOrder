@@ -1,0 +1,92 @@
+{
+  "id": 2,
+  "name": "RestaurantOrder",
+  "label": "Restaurant Order",
+  "defaultSecurityDomains": [
+    "ViewMealOrder",
+    "SelfServiceMealOrder"
+  ],
+  "defaultCollection": {
+    "name": "restaurantOrders",
+    "label": "Restaurant Orders"
+  },
+  "fields": [
+    {
+      "secureByTarget": false,
+      "target": "Restaurant",
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "label": "Restaurant",
+      "type": "SINGLE_INSTANCE",
+      "name": "restaurant",
+      "id": 1
+    },
+    {
+      "secureByTarget": false,
+      "target": "WORKER",
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "label": "Created By",
+      "type": "SINGLE_INSTANCE",
+      "name": "createdBy",
+      "id": 2
+    },
+    {
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "label": "Order Details",
+      "type": "TEXT",
+      "name": "orderDetails",
+      "id": 3
+    },
+    {
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "label": "Order Address",
+      "type": "TEXT",
+      "name": "orderAddress",
+      "id": 4
+    },
+    {
+      "precision": "DAY",
+      "enableIndex": false,
+      "isPurgeable": false,
+      "label": "Delivery Date",
+      "type": "DATE",
+      "name": "deliveryDate",
+      "id": 5
+    },
+    {
+      "securityDomains": [],
+      "target": "OrderItem",
+      "isPurgeable": false,
+      "type": "MULTI_INSTANCE",
+      "name": "orderItems",
+      "id": 6
+    },
+    {
+      "id": 7,
+      "name": "orderMonth",
+      "type": "TEXT",
+      "isReferenceId": false,
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "enableIndex": false,
+      "enableSearch": false
+    },
+    {
+      "id": 8,
+      "name": "orderYear",
+      "type": "TEXT",
+      "isReferenceId": false,
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "enableIndex": false,
+      "enableSearch": false
+    }
+  ]
+}

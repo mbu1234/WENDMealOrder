@@ -1,0 +1,25 @@
+{
+  "id": "imageCardExample",
+  "parameters": ["title", "subtitle"],
+  "header": {
+    "title": "<% title %>",
+    "subtitle": "<% subtitle %>"
+  },
+
+  "body": {
+    "type": "imageCard",
+    "endPoint": {
+      "name": "imageEndPointName",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Workday_Headquarters.jpg"
+    }
+  },
+
+  "footer": [
+    {
+      "label": "View the list",
+      "taskReference": {
+        "taskId": "restaurantManage"
+      }
+    }
+  ]
+}

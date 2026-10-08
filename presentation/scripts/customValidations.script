@@ -1,0 +1,39 @@
+var isOverMaxChar = function(textWidgetValue) {
+  let textSize = textWidgetValue.length();
+
+  textSize > 100;
+};
+
+var isWeekday = function(dateWidgetValue) {
+  let day = dateWidgetValue.format('E');
+
+  day != 'Sat' && day != 'Sun';
+};
+
+var isOverFourteenDays = function(dateWidgetValue) {
+
+  let now = date:now()
+  let today = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
+  let daysUntilDelivery = today.between(dateWidgetValue, 'DAY');
+  
+  daysUntilDelivery <= 14;
+}
+
+
+var isTodayOrFutureDate = function(dateWidgetValue) {
+
+  let now = date:now()
+  let today = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
+  let daysUntilDelivery = today.between(dateWidgetValue, 'DAY');
+
+  daysUntilDelivery >= 0;
+}
+
+
+
+{
+  "isOverMaxChar": isOverMaxChar,
+  "isWeekday": isWeekday,
+  "isOverFourteenDays": isOverFourteenDays,
+  "isTodayOrFutureDate" : isTodayOrFutureDate
+}

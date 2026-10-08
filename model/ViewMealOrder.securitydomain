@@ -1,0 +1,7 @@
+{
+  "id": 2,
+  "name": "ViewMealOrder",
+  "enabledForPageSecurity": true,
+  "enabledForOrchestrationSecurity": false,
+  "label": "View: Meal Order"
+}

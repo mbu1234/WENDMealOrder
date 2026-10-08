@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "name": "ApproveRestaurant",
+  "label": "Approve Restaurant",
+  "description": "Business Process Type for ApproveRestaurant",
+  "useForOrchestrate": false,
+  "allowsCancel": false,
+  "approvalStep": {
+    "pageRoute": "/bpApproveRestaurant/{eventId}",
+    "actions": [
+      "APPROVE",
+      "DENY"
+    ]
+  },
+  "actionSteps": [],
+  "targetBusinessObject": "Restaurant",
+  "details": {
+    "pageRoute": "/bpApproveRestaurant/{eventId}"
+  }
+}

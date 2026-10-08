@@ -1,0 +1,12 @@
+[
+    {
+        "name": "restaurantOfTheMonthDescription",
+        "type": "string",
+        "alias": "restaurantOfTheMonthDescription"
+    },
+    {
+        "name": "restaurantOfTheMonthWID",
+        "type": "string",
+        "alias": "restaurantOfTheMonthWID"
+    }
+]

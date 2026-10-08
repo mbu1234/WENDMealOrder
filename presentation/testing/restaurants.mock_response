@@ -1,0 +1,33 @@
+{
+  "id": "restaurants",
+  "responseCode": 200,
+  "responseBody": {
+    "total": 100,
+    "data": [
+      {
+        "id": "fakeWID",
+        "name": "Food & Stuff",
+        "type": "deli",
+        "active": false
+      },
+      {
+        "id": "anotherFakeWID",
+        "name": "Shake Shack",
+        "type": "burgers",
+        "active": true
+      },
+      {
+        "id": "moreFakeWIDs",
+        "name": "Noodle Home",
+        "type": "Chinese",
+        "active": true
+      },
+      {
+        "id": "stillAFakeWID",
+        "name": "Slice House",
+        "type": "pizza",
+        "active": true
+      }
+    ]
+  }
+}
