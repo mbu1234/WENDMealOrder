@@ -17,9 +17,25 @@
         {
           "type": "item",
           "icon": "wd-accent-checkmarked-page",
-          "label": "Use the Chatbot",
+          "label": "Use the Chatbot (Pipedream)",
           "task": {
-            "taskId": "testAI_Flowise_MealOrderV2FromHub"
+            "taskId": "testAI_Pipedream_MealOrderV2FromHub"
+          }
+        },
+        {
+          "type": "item",
+          "icon": "wd-accent-checkmarked-page",
+          "label": "Use the Chatbot (Langchain)",
+          "task": {
+            "taskId": "testAI_MealOrderAgentLangChainFromHub"
+          }
+        },
+         {
+          "type": "item",
+          "icon": "wd-accent-checkmarked-page",
+          "label": "Use the Chatbot (Direct Code)",
+          "task": {
+            "taskId": "testAI_MealOrderAgentFromHub"
           }
         },
         {

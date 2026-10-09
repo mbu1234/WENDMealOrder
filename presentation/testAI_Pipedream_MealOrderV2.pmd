@@ -1,5 +1,5 @@
 {
-  "id": "testAI_Flowise_MealOrderV2",
+  "id": "testAI_Pipedream_MealOrderV2",
   "onLoad": "<%
     pageVariables.restaurantOfTheMonthName = 'The cloud cafe';
     pageVariables.restaurantOfTheMonthDescription = 'The cloud cafe';

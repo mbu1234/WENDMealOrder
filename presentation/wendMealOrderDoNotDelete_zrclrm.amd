@@ -270,10 +270,10 @@
       }
     },
     {
-      "id": "testAI_Flowise_MealOrderV2",
-      "routingPattern": "/testAI_Flowise_MealOrderV2",
+      "id": "testAI_Pipedream_MealOrderV2",
+      "routingPattern": "/testAI_Pipedream_MealOrderV2",
       "page": {
-        "id": "testAI_Flowise_MealOrderV2"
+        "id": "testAI_Pipedream_MealOrderV2"
       }
     },
     {
@@ -291,10 +291,10 @@
       }
     },
     {
-      "id": "testAI_Flowise_MealOrderV2FromHub",
-      "routingPattern": "/testAI_Flowise_MealOrderV2FromHub",
+      "id": "testAI_Pipedream_MealOrderV2FromHub",
+      "routingPattern": "/testAI_Pipedream_MealOrderV2FromHub",
       "page": {
-        "id": "testAI_Flowise_MealOrderV2FromHub"
+        "id": "testAI_Pipedream_MealOrderV2FromHub"
       }
     },
     {
@@ -302,6 +302,27 @@
       "routingPattern": "/testAI_MealOrderAgent",
       "page": {
         "id": "testAI_MealOrderAgent"
+      }
+    },
+    {
+      "id": "testAI_MealOrderAgentLangChain",
+      "routingPattern": "/testAI_MealOrderAgentLangChain",
+      "page": {
+        "id": "testAI_MealOrderAgentLangChain"
+      }
+    },
+    {
+      "id": "testAI_MealOrderAgentFromHub",
+      "routingPattern": "/testAI_MealOrderAgentFromHub",
+      "page": {
+        "id": "testAI_MealOrderAgentFromHub"
+      }
+    },
+    {
+      "id": "testAI_MealOrderAgentLangChainFromHub",
+      "routingPattern": "/testAI_MealOrderAgentLangChainFromHub",
+      "page": {
+        "id": "testAI_MealOrderAgentLangChainFromHub"
       }
     }
   ],

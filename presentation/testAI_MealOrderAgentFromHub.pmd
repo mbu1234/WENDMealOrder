@@ -1,6 +1,6 @@
 {
-  "id": "testAI_Flowise_MealOrderV2FromHub",
-  "endPoints": [ ],
+  "id": "testAI_MealOrderAgentFromHub",
+  "endPoints": [],
   "presentation": {
     "title": {
       "type": "title",
@@ -28,14 +28,14 @@
               "type": "button",
               "label": "Ready to chat? ... Let's go",
               "taskReference": {
-                "taskId": "testAI_Flowise_MealOrderV2"
+                "taskId": "testAI_MealOrderAgent"
               }
             },
             {
               "type": "button",
               "label": "Main Menu",
               "taskReference": {
-                "taskId": "home"
+                "taskId": "homev2"
               }
             }
           ]
@@ -44,9 +44,7 @@
     },
     "footer": {
       "type": "footer",
-      "children": [
-        
-      ]
+      "children": []
     }
   }
 }
