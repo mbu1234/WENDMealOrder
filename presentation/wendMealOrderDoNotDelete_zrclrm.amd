@@ -296,6 +296,13 @@
       "page": {
         "id": "testAI_Flowise_MealOrderV2FromHub"
       }
+    },
+    {
+      "id": "testAI_MealOrderAgent",
+      "routingPattern": "/testAI_MealOrderAgent",
+      "page": {
+        "id": "testAI_MealOrderAgent"
+      }
     }
   ],
   "applicationId": "wendMealOrderDoNotDelete_zrclrm",
