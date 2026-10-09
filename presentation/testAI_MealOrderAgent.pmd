@@ -1,0 +1,130 @@
+{
+  "id": "testAI_MealOrderAgent",
+  "onLoad": "<%
+    pageVariables.restaurantOfTheMonthName = 'The cloud cafe';
+    pageVariables.restaurantOfTheMonthDescription = 'The cloud cafe';
+   %>",
+  "endPoints": [
+    {
+      "name": "sendToAgentChatbot",
+      "url": "https://mealorder-agent.onrender.com/chat/CgWuDPAoPiMPMWetWJsLGtd9EWi5CZEzi5J9nWcCZfI",
+      "httpMethod": "POST",
+      "onSend": "<%
+        {
+          'message' : questionWidget.value
+        }
+      %>",
+      "authType": "noAuth",
+      "deferred": true
+    }
+  ],
+  "presentation": {
+    "pageType": "edit",
+    "title": {
+      "type": "title",
+      "label": "Ask me ..."
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "horizontal": true,
+          "type": "section",
+          "columnWidthRatios": [
+            0.5,
+            0.5
+          ],
+          "children": [
+            {
+              "type": "section",
+              "children": [
+                {
+                  "layout": "MASONRY",
+                  "type": "cardContainer",
+                  "cards": [
+                    {
+                      "type": "card",
+                      "cardId": "simple",
+                      "parameters": "<%
+                                      {
+                                        'title': 'Question or task',
+                                        'subtitle': 'Have a question or task to perform in this app?',
+                                        'indicatorLabel': 'I\\'m Ready to go...',
+                                        'indicatorColor': 'Green',
+                                        'icon': 'wd-accent-coffee',
+                                        'body': 'Go for it  ...  My circuits are relatively unclogged and well oiled but please give me a moment to think and respond :)'
+                                      }
+                                     %>"
+                    }
+                  ]
+                }
+              ],
+              "layout": {
+                "alignment": "LEFT",
+                "density": "HIGH"
+              }
+            },
+            {
+              "type": "section",
+              "children": [
+                {
+                  "type": "textArea",
+                  "id": "questionWidget",
+                  "label": "Your Question ..."
+                },
+                {
+                  "type": "pageActionButton",
+                  "label": "Send",
+                  "onClick": "<%
+
+                    let result = sendToAgentChatbot.invoke();
+              
+                    responseWidget.value = result.response + '\\n' + '\\n';
+                    responseSectionWidget.visible = true;
+                    statusWidget.value = '';
+
+
+                  %>"
+                },
+                {
+                  "type": "section",
+                  "id": "responseSectionWidget",
+                  "visible": false,
+                  "children": [
+                    {
+                      "type": "textArea",
+                      "id": "responseWidget",
+                      "enabled": false,
+                      "label": "Response ...."
+                    }
+                  ]
+                }
+              ],
+              "layout": {
+                "alignment": "LEFT",
+                "density": "HIGH",
+                "labelPosition": "TOP"
+              }
+            }
+          ],
+          "layout": {
+            "alignment": "LEFT",
+            "density": "HIGH"
+          }
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "id": "statusWidget",
+          "enabled": false,
+          "value": "<span style='color: blue;'>Please give me a moment to think and respond :)</span>"
+        }
+      ]
+    }
+  }
+}
